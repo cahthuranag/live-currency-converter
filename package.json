@@ -1,0 +1,60 @@
+{
+  "name": "live-currency-rates",
+  "version": "1.1.0",
+  "description": "Convert currencies with live exchange rates. Fluent API: Convert(100).from('USD').to('EUR'). Multiple providers (free, no key by default) — Frankfurter, fawazahmed0, AllRatesToday. Zero dependencies.",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "currency",
+    "currencies",
+    "currency-converter",
+    "currency-conversion",
+    "currency-exchange",
+    "exchange-rate",
+    "exchange-rates",
+    "converter",
+    "conversion",
+    "rates",
+    "live-rates",
+    "realtime",
+    "forex",
+    "money",
+    "finance",
+    "convert",
+    "usd",
+    "eur",
+    "gbp"
+  ],
+  "author": "cahthuranag",
+  "license": "MIT",
+  "homepage": "https://cahthuranag.github.io/live-currency-converter/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cahthuranag/live-currency-converter"
+  },
+  "bugs": {
+    "url": "https://github.com/cahthuranag/live-currency-converter/issues"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^4.1.4"
+  }
+}

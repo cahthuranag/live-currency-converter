@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Live Currency Converter — Free Real-Time Exchange Rates</title>
+<meta name="description" content="Free live currency converter with real-time exchange rates for 200+ currencies including crypto. No API key required. Powered by the live-currency-rates npm package." />
+<meta name="keywords" content="currency converter, live currency rates, exchange rates, free currency api, forex, USD EUR GBP, crypto converter, npm currency" />
+<meta name="author" content="cahthuranag" />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://cahthuranag.github.io/live-currency-converter/" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Live Currency Converter — Free Real-Time Exchange Rates" />
+<meta property="og:description" content="Free live currency converter with real-time rates for 200+ currencies including crypto. No API key needed." />
+<meta property="og:url" content="https://cahthuranag.github.io/live-currency-converter/" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Live Currency Converter" />
+<meta name="twitter:description" content="Free live currency converter with real-time rates for 200+ currencies." />
+
+<!-- Structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Live Currency Converter",
+  "description": "Free live currency converter with real-time exchange rates for 200+ currencies including crypto.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<style>
+  :root {
+    --bg: #0b1020;
+    --card: #131a33;
+    --text: #e7ecf5;
+    --muted: #95a3c3;
+    --accent: #6ea8ff;
+    --accent-2: #8b5cf6;
+    --border: #222b4a;
+    --success: #22c55e;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: radial-gradient(1200px 600px at 20% -10%, #1a2450 0%, transparent 60%),
+                radial-gradient(900px 500px at 100% 10%, #2a1a50 0%, transparent 55%),
+                var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.55;
+  }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 48px 20px 80px; }
+  header { text-align: center; margin-bottom: 40px; }
+  h1 {
+    font-size: clamp(28px, 5vw, 44px);
+    margin: 0 0 12px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .tagline { color: var(--muted); max-width: 620px; margin: 0 auto; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 10px 40px rgba(0,0,0,.35);
+  }
+  .row { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  @media (min-width: 640px) { .row { grid-template-columns: 1fr 1fr; } }
+  label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+  input, select, button {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: #0d1330;
+    color: var(--text);
+    font-size: 16px;
+    font-family: inherit;
+  }
+  input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  button {
+    margin-top: 16px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    color: white; border: 0; cursor: pointer; font-weight: 600;
+    transition: transform .05s ease;
+  }
+  button:hover { transform: translateY(-1px); }
+  button:disabled { opacity: .6; cursor: not-allowed; }
+  .result {
+    margin-top: 18px; padding: 18px; border-radius: 12px;
+    background: #0d1330; border: 1px solid var(--border);
+    min-height: 56px;
+  }
+  .result .big { font-size: clamp(22px, 4vw, 30px); font-weight: 700; }
+  .result .rate { color: var(--muted); font-size: 14px; margin-top: 4px; }
+  .swap { display: flex; justify-content: center; }
+  .swap button {
+    width: auto; margin: 0; padding: 6px 12px; background: transparent;
+    border: 1px solid var(--border); color: var(--muted); font-size: 12px;
+  }
+  section { margin-top: 40px; }
+  h2 { font-size: 22px; margin: 0 0 12px; }
+  pre {
+    background: #0d1330; border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px; overflow-x: auto; font-size: 14px; color: #d6e0f5;
+  }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  footer { text-align: center; margin-top: 48px; color: var(--muted); font-size: 13px; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .badges { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 14px; }
+  .badges img { height: 22px; }
+  .error { color: #f87171; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Live Currency Converter</h1>
+    <p class="tagline">Free, real-time exchange rates for 200+ currencies — including crypto. No API key, no signup. Powered by the <code>live-currency-rates</code> npm package.</p>
+    <div class="badges">
+      <a href="https://www.npmjs.com/package/live-currency-rates"><img src="https://img.shields.io/npm/v/live-currency-rates?color=cb3837" alt="npm version" /></a>
+      <a href="https://github.com/cahthuranag/live-currency-converter"><img src="https://img.shields.io/github/stars/cahthuranag/live-currency-converter?style=social" alt="GitHub stars" /></a>
+    </div>
+  </header>
+
+  <main>
+    <div class="card">
+      <div class="row">
+        <div>
+          <label for="amount">Amount</label>
+          <input id="amount" type="number" inputmode="decimal" value="100" min="0" step="any" />
+        </div>
+        <div>
+          <label for="from">From</label>
+          <select id="from"></select>
+        </div>
+      </div>
+      <div class="swap"><button id="swap" type="button" aria-label="Swap currencies">↓ swap ↓</button></div>
+      <div class="row">
+        <div>
+          <label for="to">To</label>
+          <select id="to"></select>
+        </div>
+        <div>
+          <label>&nbsp;</label>
+          <button id="convert" type="button">Convert</button>
+        </div>
+      </div>
+      <div class="result" id="result" aria-live="polite">
+        <div class="big">—</div>
+        <div class="rate">Loading currencies…</div>
+      </div>
+    </div>
+
+    <section>
+      <h2>Use it in your project</h2>
+<pre><code>npm install live-currency-rates</code></pre>
+<pre><code>import { Convert } from 'live-currency-rates';
+
+const r = await Convert(100).from('USD').to('EUR');
+console.log(r.amount); // 84.76</code></pre>
+      <p>Three providers: <strong>Frankfurter</strong> (default, free), <strong>fawazahmed0</strong> (free, 200+ currencies incl. crypto), <strong>AllRatesToday</strong> (real-time with API key). See the <a href="https://www.npmjs.com/package/live-currency-rates">npm page</a> for full docs.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>
+      <a href="https://github.com/cahthuranag/live-currency-converter">GitHub</a> ·
+      <a href="https://www.npmjs.com/package/live-currency-rates">npm</a> ·
+      MIT License
+    </p>
+    <p>Rates via <a href="https://www.frankfurter.app/">Frankfurter</a> (European Central Bank).</p>
+  </footer>
+</div>
+
+<script type="module">
+  import { Convert, Symbols } from 'https://esm.sh/live-currency-rates@1.1.0';
+
+  const fromEl = document.getElementById('from');
+  const toEl = document.getElementById('to');
+  const amountEl = document.getElementById('amount');
+  const resultEl = document.getElementById('result');
+  const convertBtn = document.getElementById('convert');
+  const swapBtn = document.getElementById('swap');
+
+  function setResult(big, rate, isError = false) {
+    resultEl.innerHTML = `<div class="big ${isError ? 'error' : ''}">${big}</div><div class="rate">${rate}</div>`;
+  }
+
+  async function init() {
+    try {
+      const symbols = await Symbols();
+      const codes = Object.keys(symbols).sort();
+      const frag = (sel) => {
+        const df = document.createDocumentFragment();
+        for (const code of codes) {
+          const opt = document.createElement('option');
+          opt.value = code;
+          opt.textContent = `${code} — ${symbols[code]}`;
+          df.appendChild(opt);
+        }
+        sel.appendChild(df);
+      };
+      frag(fromEl); frag(toEl);
+      fromEl.value = 'USD';
+      toEl.value = 'EUR';
+      setResult('—', 'Enter an amount and press Convert.');
+      await run();
+    } catch (e) {
+      setResult('Error', `Could not load currencies: ${e.message}`, true);
+    }
+  }
+
+  async function run() {
+    const amount = parseFloat(amountEl.value);
+    const from = fromEl.value, to = toEl.value;
+    if (!amount || !from || !to) return;
+    convertBtn.disabled = true;
+    setResult('…', 'Fetching rate…');
+    try {
+      const r = await Convert(amount).from(from).to(to);
+      const fmt = new Intl.NumberFormat(undefined, { maximumFractionDigits: 6 });
+      setResult(`${fmt.format(r.amount)} ${to}`, `${amount} ${from} = ${fmt.format(r.amount)} ${to}  ·  1 ${from} = ${fmt.format(r.rate)} ${to}`);
+    } catch (e) {
+      setResult('Error', e.message, true);
+    } finally {
+      convertBtn.disabled = false;
+    }
+  }
+
+  convertBtn.addEventListener('click', run);
+  amountEl.addEventListener('keydown', (e) => { if (e.key === 'Enter') run(); });
+  swapBtn.addEventListener('click', () => {
+    const a = fromEl.value; fromEl.value = toEl.value; toEl.value = a; run();
+  });
+
+  init();
+</script>
+</body>
+</html>
