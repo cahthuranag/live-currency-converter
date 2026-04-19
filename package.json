@@ -1,6 +1,6 @@
 {
   "name": "live-currency-rates",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Convert currencies with live exchange rates. Fluent API: Convert(100).from('USD').to('EUR'). Multiple providers (free, no key by default) — Frankfurter, fawazahmed0, AllRatesToday. Zero dependencies.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",

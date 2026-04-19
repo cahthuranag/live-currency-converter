@@ -1,5 +1,5 @@
 const DEFAULT_ALLRATES_URL = 'https://allratestoday.com';
-const FRANKFURTER_URL = 'https://api.frankfurter.app';
+const FRANKFURTER_URL = 'https://api.frankfurter.dev/v1';
 const FAWAZ_URL = 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1';
 const DEFAULT_TIMEOUT = 10000;
 
@@ -107,13 +107,13 @@ async function fetchRates(
   }
 
   if (cfg.provider === 'frankfurter') {
-    const base = cfg.baseUrl || FRANKFURTER_URL;
-    const url = new URL('/latest', base);
-    url.searchParams.set('from', source);
-    if (targetList?.length) url.searchParams.set('to', targetList.join(','));
+    const base = (cfg.baseUrl || FRANKFURTER_URL).replace(/\/+$/, '');
+    const params = new URLSearchParams({ from: source });
+    if (targetList?.length) params.set('to', targetList.join(','));
+    const url = `${base}/latest?${params.toString()}`;
 
     const data = await httpGet<{ base: string; rates: Record<string, number> }>(
-      url.toString(),
+      url,
       cfg.timeout,
     );
     // Frankfurter omits the base currency from `rates`; add 1:1 for completeness.
@@ -159,7 +159,7 @@ async function fetchSymbols(cfg: ReturnType<typeof resolve>): Promise<Record<str
   }
 
   if (cfg.provider === 'frankfurter') {
-    const base = cfg.baseUrl || FRANKFURTER_URL;
+    const base = (cfg.baseUrl || FRANKFURTER_URL).replace(/\/+$/, '');
     return httpGet<Record<string, string>>(`${base}/currencies`, cfg.timeout);
   }
 
