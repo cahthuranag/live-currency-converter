@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Currency & Exchange Rate API FAQ — 20 Questions Answered (2026)</title>
+<meta name="description" content="Straight answers to the 20 most common questions about currency APIs, exchange rate APIs, forex APIs, free vs paid providers, Xe, Frankfurter, ExchangeRate-API, Fixer and more." />
+<meta name="keywords" content="currency api, exchange rate api, forex api, fx api, free currency api, xe api, frankfurter api, exchangerate-api, fixer.io, currency converter api, open exchange rates" />
+<meta name="author" content="cahthuranag" />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://cahthuranag.github.io/live-currency-converter/faq.html" />
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Currency & Exchange Rate API FAQ — 20 Questions Answered" />
+<meta property="og:description" content="Straight answers to the 20 most common questions about currency and exchange rate APIs." />
+<meta property="og:url" content="https://cahthuranag.github.io/live-currency-converter/faq.html" />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"Is there a free API for currency conversion?","acceptedAnswer":{"@type":"Answer","text":"Yes. Frankfurter (api.frankfurter.dev) is 100% free, open-source, and requires no API key — it exposes European Central Bank daily reference rates for about 30 currencies. ExchangeRate-API offers a free tier of 1,500 requests/month. fawazahmed0/currency-api on GitHub is also free and covers 200+ currencies including crypto via a jsDelivr CDN. The live-currency-rates npm package wraps all three so you can switch providers with one line of code."}},
+    {"@type":"Question","name":"What is a currency API?","acceptedAnswer":{"@type":"Answer","text":"A currency API is a REST web service that returns exchange rates between currencies, usually as JSON. You make an HTTP GET like GET /latest?from=USD&to=EUR and the response contains the current rate. Currency APIs are used in e-commerce checkout, finance dashboards, travel apps, accounting tools, and any software that displays prices in more than one currency."}},
+    {"@type":"Question","name":"What is a forex API?","acceptedAnswer":{"@type":"Answer","text":"A forex (FX) API is a currency API oriented toward trading: it delivers tick-level bid/ask quotes for currency pairs such as EUR/USD with millisecond latency, optional historical data, and sometimes order execution endpoints. Examples include OANDA, MetaTrader, TraderMade, and Polygon.io. General-purpose currency APIs — like Frankfurter or ExchangeRate-API — are simpler: they return mid-market reference rates, not tradable quotes."}},
+    {"@type":"Question","name":"What is an FX API?","acceptedAnswer":{"@type":"Answer","text":"FX API is another name for forex API. Some providers use the term specifically for enterprise services that include live streaming rates, 100+ currency pairs, and trade execution. Others use it interchangeably with 'currency API' for REST endpoints returning exchange rates."}},
+    {"@type":"Question","name":"What is an open exchange rate?","acceptedAnswer":{"@type":"Answer","text":"An open exchange rate refers to a rate published through an openly accessible API or data feed — anyone can consume it without a private data contract. Open Exchange Rates is also the name of a specific commercial provider (openexchangerates.org) that offers exchange rates for 200+ currencies with a free tier capped at 1,000 requests/month."}},
+    {"@type":"Question","name":"Is the Frankfurter API free?","acceptedAnswer":{"@type":"Answer","text":"Yes. Frankfurter (api.frankfurter.dev) is a free, open-source currency data API. It tracks ~30 currencies using European Central Bank reference rates, requires no API key, has no rate limit documented for normal use, and supports historical rates back to 1999. It is the default provider used by the live-currency-rates npm package."}},
+    {"@type":"Question","name":"Is an exchange rate API free?","acceptedAnswer":{"@type":"Answer","text":"Some are, some aren't. Fully free with no key: Frankfurter, fawazahmed0/currency-api. Free tier with a key: ExchangeRate-API (1,500/month), Fixer.io (100/month), Open Exchange Rates (1,000/month), freecurrencyapi.com (5,000/month). Paid only: XE, OANDA, TraderMade enterprise."}},
+    {"@type":"Question","name":"Is ExchangeRate-API free?","acceptedAnswer":{"@type":"Answer","text":"ExchangeRate-API has a free plan that includes 1,500 requests per month with no credit card required. It's sufficient for testing and small projects. The free tier is explicitly not for production traffic — commercial apps are expected to upgrade."}},
+    {"@type":"Question","name":"How much does ExchangeRate-API cost?","acceptedAnswer":{"@type":"Answer","text":"As of 2026, ExchangeRate-API paid plans start at $13.99/month (Pro, 30k requests) and go up to $49/month (Volume, 1.5M requests) for standard tiers, with custom enterprise pricing above that. The free tier is 1,500 requests/month."}},
+    {"@type":"Question","name":"Does Xe have an API?","acceptedAnswer":{"@type":"Answer","text":"Yes. Xe offers Xe Currency Data API for businesses — it provides real-time and historical exchange rates for 170+ currencies. It's aimed at enterprise customers (Fortune 500, banks, fintechs) with SLAs and guaranteed availability."}},
+    {"@type":"Question","name":"Is the Xe API free?","acceptedAnswer":{"@type":"Answer","text":"No. Xe's Currency Data API does not have a public free tier. Pricing is enterprise-only and typically starts around $799/month depending on volume and features. For free usage, Frankfurter or ExchangeRate-API's free tier are the common alternatives."}},
+    {"@type":"Question","name":"Is the Google Currency Converter API free?","acceptedAnswer":{"@type":"Answer","text":"Google does not officially publish a public Currency Converter API. The GOOGLEFINANCE function in Google Sheets returns exchange rates for free, and some unofficial wrappers exist on App Engine, but there is no supported Google REST API for currency conversion. For programmatic access, use Frankfurter, ExchangeRate-API, or a dedicated provider."}},
+    {"@type":"Question","name":"Is Fixer.io reliable?","acceptedAnswer":{"@type":"Answer","text":"Fixer.io is owned by apilayer and has been running since 2015. It's considered reliable for daily-rate use cases and has uptime and SLA guarantees on paid plans. The free tier (100 requests/month, HTTPS not included, EUR base currency only) is restrictive — most production users upgrade to the Basic or Professional plan."}},
+    {"@type":"Question","name":"Is the MT5 API free?","acceptedAnswer":{"@type":"Answer","text":"MetaTrader 5 (MT5) Manager and Gateway APIs are not free — they require a licensed MT5 server and a paid integration agreement with MetaQuotes. Trial access is available through brokers. If you only need currency rates (not trade execution), MT5 is overkill; a currency API is simpler and cheaper."}},
+    {"@type":"Question","name":"How do you make a currency converter in Python with an API?","acceptedAnswer":{"@type":"Answer","text":"Minimal example using Frankfurter (no key needed): import requests; r = requests.get('https://api.frankfurter.dev/v1/latest', params={'from':'USD','to':'EUR'}); rate = r.json()['rates']['EUR']; print(100 * rate). Wrap it in a function, add error handling for non-200 responses, and you have a working converter in under 10 lines."}},
+    {"@type":"Question","name":"What is the formula to calculate an exchange rate?","acceptedAnswer":{"@type":"Answer","text":"Exchange rate = target currency amount ÷ source currency amount. If 100 USD buys 85 EUR, the USD→EUR rate is 85/100 = 0.85. To convert an amount, multiply by the rate: 250 USD × 0.85 = 212.50 EUR. The inverse rate (EUR→USD) is 1/0.85 ≈ 1.176."}},
+    {"@type":"Question","name":"What is the GOOGLEFINANCE function for exchange rates?","acceptedAnswer":{"@type":"Answer","text":"In Google Sheets, use =GOOGLEFINANCE(\"CURRENCY:USDEUR\") to get the live USD→EUR exchange rate. Replace USDEUR with any ISO 4217 pair. For historical rates, add a date: =GOOGLEFINANCE(\"CURRENCY:USDEUR\", \"price\", DATE(2024,1,1)). Rates are delayed ~20 minutes."}},
+    {"@type":"Question","name":"Which is the best currency converter?","acceptedAnswer":{"@type":"Answer","text":"For consumers sending money: Wise (TransferWise) uses the real mid-market rate with transparent fees. For developers embedding conversion in software: Frankfurter (free) or ExchangeRate-API (free tier) are the easiest; the live-currency-rates npm package wraps both with one API. For enterprise trading: Xe, OANDA, or Bloomberg."}},
+    {"@type":"Question","name":"What is the best currency converter app to use?","acceptedAnswer":{"@type":"Answer","text":"Most-used consumer apps in 2026: Wise (best rates, real transfers), XE Currency (offline mode, clean UI), Revolut (multi-currency account), and Currency Converter Plus. For travelers, Wise and XE are the most-recommended because they surface the mid-market rate rather than a marked-up one."}},
+    {"@type":"Question","name":"Where should you convert currency for the best exchange rate?","acceptedAnswer":{"@type":"Answer","text":"You get closest to the mid-market rate with online-first providers: Wise, Revolut, Currencies Direct, or OFX. Traditional banks and airport kiosks mark up the rate by 2–5%+. Credit cards that refund foreign transaction fees (e.g., travel cards) are good for purchases abroad. Always compare the rate you're offered against the mid-market rate — any gap is the provider's margin."}}
+  ]
+}
+</script>
+
+<style>
+  :root {
+    --bg: #0b1020;
+    --card: #131a33;
+    --text: #e7ecf5;
+    --muted: #95a3c3;
+    --accent: #6ea8ff;
+    --accent-2: #8b5cf6;
+    --border: #222b4a;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: radial-gradient(1200px 600px at 20% -10%, #1a2450 0%, transparent 60%),
+                radial-gradient(900px 500px at 100% 10%, #2a1a50 0%, transparent 55%),
+                var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.65;
+  }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 48px 20px 80px; }
+  nav { display: flex; gap: 18px; justify-content: center; margin-bottom: 24px; font-size: 14px; }
+  nav a { color: var(--muted); text-decoration: none; }
+  nav a:hover { color: var(--accent); }
+  header { text-align: center; margin-bottom: 40px; }
+  h1 {
+    font-size: clamp(28px, 5vw, 40px);
+    margin: 0 0 12px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .tagline { color: var(--muted); }
+  .toc {
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 20px 24px; margin-bottom: 40px;
+  }
+  .toc h2 { font-size: 16px; margin: 0 0 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  .toc ol { margin: 0; padding-left: 20px; }
+  .toc ol li { margin: 4px 0; }
+  .toc a { color: var(--text); text-decoration: none; }
+  .toc a:hover { color: var(--accent); }
+  article h2 {
+    font-size: 22px; margin: 40px 0 10px; color: var(--text);
+    scroll-margin-top: 24px;
+  }
+  article h2::before {
+    content: "Q.";
+    color: var(--accent); font-weight: 600; margin-right: 6px;
+    font-size: 16px; letter-spacing: 0.05em;
+  }
+  article p { color: var(--text); margin: 10px 0 0; }
+  article code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    background: #0d1330; padding: 2px 6px; border-radius: 6px; font-size: 13px;
+    border: 1px solid var(--border);
+  }
+  pre {
+    background: #0d1330; border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px 16px; overflow-x: auto; font-size: 13px; margin: 12px 0;
+  }
+  pre code { background: transparent; padding: 0; border: 0; }
+  a { color: var(--accent); }
+  footer { text-align: center; margin-top: 60px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--border); padding-top: 24px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a href="./">← Converter</a>
+    <a href="https://www.npmjs.com/package/live-currency-rates">npm</a>
+    <a href="https://github.com/cahthuranag/live-currency-converter">GitHub</a>
+  </nav>
+
+  <header>
+    <h1>Currency &amp; Exchange Rate API FAQ</h1>
+    <p class="tagline">Straight answers to 20 of the most-asked questions about currency APIs, exchange rate APIs, forex APIs, and the best providers in 2026.</p>
+  </header>
+
+  <div class="toc">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#q1">Is there a free API for currency conversion?</a></li>
+      <li><a href="#q2">What is a currency API?</a></li>
+      <li><a href="#q3">What is a forex API?</a></li>
+      <li><a href="#q4">What is an FX API?</a></li>
+      <li><a href="#q5">What is an open exchange rate?</a></li>
+      <li><a href="#q6">Is the Frankfurter API free?</a></li>
+      <li><a href="#q7">Is an exchange rate API free?</a></li>
+      <li><a href="#q8">Is ExchangeRate-API free?</a></li>
+      <li><a href="#q9">How much does ExchangeRate-API cost?</a></li>
+      <li><a href="#q10">Does Xe have an API?</a></li>
+      <li><a href="#q11">Is the Xe API free?</a></li>
+      <li><a href="#q12">Is the Google Currency Converter API free?</a></li>
+      <li><a href="#q13">Is Fixer.io reliable?</a></li>
+      <li><a href="#q14">Is the MT5 API free?</a></li>
+      <li><a href="#q15">How do you make a currency converter in Python with an API?</a></li>
+      <li><a href="#q16">What is the formula to calculate an exchange rate?</a></li>
+      <li><a href="#q17">What is the GOOGLEFINANCE function for exchange rates?</a></li>
+      <li><a href="#q18">Which is the best currency converter?</a></li>
+      <li><a href="#q19">What is the best currency converter app to use?</a></li>
+      <li><a href="#q20">Where should you convert currency for the best exchange rate?</a></li>
+    </ol>
+  </div>
+
+  <article>
+
+<h2 id="q1">Is there a free API for currency conversion?</h2>
+<p>Yes — several. The main free options in 2026:</p>
+<ul>
+  <li><a href="https://api.frankfurter.dev/">Frankfurter</a> — 100% free, open-source, no API key, ECB reference rates for ~30 currencies, historical data back to 1999.</li>
+  <li><a href="https://github.com/fawazahmed0/currency-api">fawazahmed0/currency-api</a> — free via jsDelivr CDN, 200+ currencies including crypto, no key.</li>
+  <li><a href="https://www.exchangerate-api.com/">ExchangeRate-API</a> — free tier with 1,500 requests/month (API key required).</li>
+  <li><a href="https://freecurrencyapi.com/">freecurrencyapi.com</a> — free tier with 5,000 requests/month.</li>
+  <li><a href="https://fixer.io/">Fixer.io</a> — free tier with 100 requests/month (HTTP only on free).</li>
+</ul>
+<p>If you're building a JavaScript app, the <a href="https://www.npmjs.com/package/live-currency-rates">live-currency-rates</a> npm package wraps Frankfurter, fawazahmed0, and a Pro provider under one fluent API — you can switch with one line: <code>setup({ provider: 'frankfurter' })</code>.</p>
+
+<h2 id="q2">What is a currency API?</h2>
+<p>A currency API is a REST web service that returns exchange rates between currencies, usually as JSON. A typical call looks like:</p>
+<pre><code>GET https://api.frankfurter.dev/v1/latest?from=USD&amp;to=EUR
+→ { "amount": 1, "base": "USD", "date": "2026-04-18", "rates": { "EUR": 0.84767 } }</code></pre>
+<p>Currency APIs are used in e-commerce checkout (showing prices in the shopper's local currency), finance dashboards, accounting tools, travel apps, international payroll, and anywhere software needs to convert or display money across currencies.</p>
+
+<h2 id="q3">What is a forex API?</h2>
+<p>A <strong>forex (FX) API</strong> is a currency API built for trading rather than display. It delivers:</p>
+<ul>
+  <li>Tick-level <strong>bid/ask quotes</strong> with millisecond latency (not just a mid-market rate)</li>
+  <li>Historical OHLC data for charting</li>
+  <li>Sometimes <strong>order execution</strong> endpoints (place, modify, cancel)</li>
+</ul>
+<p>Forex APIs include OANDA, MetaTrader (MT4/MT5), TraderMade, Polygon.io, and FXCM. General-purpose currency APIs like Frankfurter or ExchangeRate-API only return reference mid-market rates and are not intended for trading.</p>
+
+<h2 id="q4">What is an FX API?</h2>
+<p>"FX API" is another name for "forex API." Some enterprise providers (banks, Stripe, Bloomberg, OCBC) use "FX API" specifically for streaming quotes and execution services supporting 100+ currency pairs. In casual developer conversation, "currency API" and "FX API" are often used interchangeably.</p>
+
+<h2 id="q5">What is an open exchange rate?</h2>
+<p>Two meanings:</p>
+<ol>
+  <li><strong>Generic:</strong> an exchange rate that's openly accessible through a public API or data feed — no private contract required.</li>
+  <li><strong>Specific:</strong> <a href="https://openexchangerates.org/">Open Exchange Rates</a> is the name of a commercial provider that has been publishing rates for 200+ currencies since 2011. Free tier: 1,000 requests/month (hourly updates, USD base only).</li>
+</ol>
+
+<h2 id="q6">Is the Frankfurter API free?</h2>
+<p>Yes. <a href="https://www.frankfurter.dev/">Frankfurter</a> is a free, open-source currency data API with no key, no signup, and no documented rate limit for normal use. It tracks <strong>~30 currencies</strong> using <strong>European Central Bank</strong> daily reference rates and supports historical data back to 1999. Because it's ECB-based, rates update once per business day around 16:00 CET — it's great for accounting, invoicing, and general display, but not for trading.</p>
+
+<h2 id="q7">Is an exchange rate API free?</h2>
+<p>Depends on the provider:</p>
+<table style="width:100%;border-collapse:collapse;margin:14px 0;font-size:14px">
+  <thead><tr style="text-align:left"><th style="padding:8px;border-bottom:1px solid var(--border)">Provider</th><th style="padding:8px;border-bottom:1px solid var(--border)">Free tier</th><th style="padding:8px;border-bottom:1px solid var(--border)">Key?</th></tr></thead>
+  <tbody>
+    <tr><td style="padding:8px">Frankfurter</td><td>Unlimited</td><td>No</td></tr>
+    <tr><td style="padding:8px">fawazahmed0</td><td>Unlimited</td><td>No</td></tr>
+    <tr><td style="padding:8px">ExchangeRate-API</td><td>1,500/mo</td><td>Yes</td></tr>
+    <tr><td style="padding:8px">freecurrencyapi.com</td><td>5,000/mo</td><td>Yes</td></tr>
+    <tr><td style="padding:8px">Open Exchange Rates</td><td>1,000/mo</td><td>Yes</td></tr>
+    <tr><td style="padding:8px">Fixer.io</td><td>100/mo</td><td>Yes</td></tr>
+    <tr><td style="padding:8px">Xe / OANDA / Bloomberg</td><td>None</td><td>Yes</td></tr>
+  </tbody>
+</table>
+
+<h2 id="q8">Is ExchangeRate-API free?</h2>
+<p>ExchangeRate-API offers a free plan of <strong>1,500 requests/month</strong>, no credit card required. It's fine for hobby projects, prototypes, and small internal tools. The free tier is not intended for production traffic — the terms explicitly ask commercial users to upgrade.</p>
+
+<h2 id="q9">How much does ExchangeRate-API cost?</h2>
+<p>As of 2026, ExchangeRate-API paid plans:</p>
+<ul>
+  <li><strong>Pro:</strong> $13.99/month — 30,000 requests/month, hourly updates</li>
+  <li><strong>Business:</strong> $29/month — 100,000 requests/month</li>
+  <li><strong>Volume:</strong> $49/month — 1.5M requests/month, minute-level updates</li>
+  <li><strong>Enterprise:</strong> custom pricing for higher volumes and SLAs</li>
+</ul>
+<p>Check <a href="https://www.exchangerate-api.com/">the ExchangeRate-API pricing page</a> for current numbers — they change occasionally.</p>
+
+<h2 id="q10">Does Xe have an API?</h2>
+<p>Yes. <a href="https://www.xe.com/platform/xecurrencydata/">Xe Currency Data API</a> provides real-time and historical exchange rates for 170+ currencies. It's used by Fortune 500 companies, banks, and fintechs. The API includes mid-market rates, a historical archive, and optional delivery SLAs.</p>
+
+<h2 id="q11">Is the Xe API free?</h2>
+<p>No. Xe has no public free tier. Pricing is enterprise-only and typically starts around <strong>$799/month</strong> depending on request volume and feature mix. If you need free access, use Frankfurter, ExchangeRate-API's free tier, or freecurrencyapi.com.</p>
+
+<h2 id="q12">Is the Google Currency Converter API free?</h2>
+<p>There is no official public Google Currency API. What exists:</p>
+<ul>
+  <li>The <code>GOOGLEFINANCE</code> function in Google Sheets (free, ~20-minute delay)</li>
+  <li>Unofficial wrappers like <code>currency-api.appspot.com</code> (community-hosted, no SLA)</li>
+</ul>
+<p>For production code, don't depend on Google for currency rates — use a supported provider.</p>
+
+<h2 id="q13">Is Fixer.io reliable?</h2>
+<p>Yes, within its bounds. Fixer.io is owned by <strong>apilayer</strong> and has been operating since 2015. Paid plans have uptime guarantees and are generally considered reliable. Limitations on the free tier are heavy: 100 requests/month, HTTP only (no HTTPS), and EUR is the only allowed base currency — most production users end up on Basic ($14.99/month) or Professional ($59.99/month).</p>
+
+<h2 id="q14">Is the MT5 API free?</h2>
+<p>No. MetaTrader 5 Manager and Gateway APIs are not free — they require a licensed MT5 server and a paid integration agreement with MetaQuotes. Brokers may offer trial access to demo accounts. If you only need exchange rates (not trade execution), a plain currency API is drastically simpler and cheaper.</p>
+
+<h2 id="q15">How do you make a currency converter in Python with an API?</h2>
+<p>Minimal working example using Frankfurter (no key required):</p>
+<pre><code>import requests
+
+def convert(amount, src, dst):
+    r = requests.get("https://api.frankfurter.dev/v1/latest",
+                     params={"from": src, "to": dst})
+    r.raise_for_status()
+    rate = r.json()["rates"][dst]
+    return amount * rate, rate
+
+amount, rate = convert(100, "USD", "EUR")
+print(f"100 USD = {amount:.2f} EUR  (rate {rate})")</code></pre>
+<p>Add error handling for connection failures and unknown currency codes, cache results for 30–60 minutes to stay polite with the free API, and you're done.</p>
+
+<h2 id="q16">What is the formula to calculate an exchange rate?</h2>
+<p>The exchange rate is the ratio of two currency amounts:</p>
+<pre><code>rate = target_amount / source_amount</code></pre>
+<p>If 100 USD buys 85 EUR, the USD→EUR rate is <code>85 / 100 = 0.85</code>. To convert any amount, multiply by the rate:</p>
+<pre><code>250 USD × 0.85 = 212.50 EUR</code></pre>
+<p>The inverse (EUR→USD) is <code>1 / 0.85 ≈ 1.176</code>. Note that real-world rates include a spread — the "buy" and "sell" rates differ slightly, and that difference is the provider's margin.</p>
+
+<h2 id="q17">What is the GOOGLEFINANCE function for exchange rates?</h2>
+<p>In Google Sheets, use:</p>
+<pre><code>=GOOGLEFINANCE("CURRENCY:USDEUR")</code></pre>
+<p>Replace <code>USDEUR</code> with any two concatenated ISO 4217 codes (e.g. <code>GBPJPY</code>, <code>AUDCAD</code>). For historical rates, add a date:</p>
+<pre><code>=GOOGLEFINANCE("CURRENCY:USDEUR", "price", DATE(2024,1,1))</code></pre>
+<p>Rates are delayed by ~20 minutes and cover most major pairs. Fine for spreadsheets; don't use it for production apps.</p>
+
+<h2 id="q18">Which is the best currency converter?</h2>
+<p>Depends on the use case:</p>
+<ul>
+  <li><strong>Sending money abroad:</strong> <a href="https://wise.com/">Wise</a> — real mid-market rate, no hidden markup.</li>
+  <li><strong>Quick lookup on web/mobile:</strong> Google search (<code>100 usd to eur</code>) or <a href="https://xe.com/">XE.com</a>.</li>
+  <li><strong>Embedding in software:</strong> Frankfurter (free) or ExchangeRate-API (free tier). The <a href="https://www.npmjs.com/package/live-currency-rates">live-currency-rates</a> npm package gives you both under one fluent API.</li>
+  <li><strong>Enterprise / trading:</strong> Xe, OANDA, or Bloomberg.</li>
+</ul>
+
+<h2 id="q19">What is the best currency converter app to use?</h2>
+<p>Most-recommended consumer apps in 2026:</p>
+<ul>
+  <li><strong>Wise</strong> — best mid-market rate + actual money transfer.</li>
+  <li><strong>XE Currency</strong> — clean UI, offline mode for travel.</li>
+  <li><strong>Revolut</strong> — multi-currency account with in-app conversion.</li>
+  <li><strong>Currency Converter Plus</strong> — simple free converter (ad-supported).</li>
+</ul>
+
+<h2 id="q20">Where should you convert currency for the best exchange rate?</h2>
+<p>You get closest to the true mid-market rate with online-first providers: <strong>Wise</strong>, <strong>Revolut</strong>, <strong>Currencies Direct</strong>, or <strong>OFX</strong>. Traditional banks and airport kiosks typically mark up the rate by 2–5% on top of a fee. Travel-friendly credit cards (no foreign transaction fee) are good for purchases abroad; avoid "Dynamic Currency Conversion" at the point of sale — always pay in the local currency.</p>
+<p>Rule of thumb: check the mid-market rate on Google or <a href="./">this converter</a>, then compare what you're offered. Any gap is the provider's margin.</p>
+
+  </article>
+
+  <footer>
+    <p>Published April 2026 · <a href="https://github.com/cahthuranag/live-currency-converter">Source on GitHub</a> · MIT License</p>
+  </footer>
+</div>
+</body>
+</html>
