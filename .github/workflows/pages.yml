@@ -22,25 +22,9 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-
-      - name: Inject ALLRATES_API_KEY secret into page
-        env:
-          ALLRATES_API_KEY: ${{ secrets.ALLRATES_API_KEY }}
-        run: |
-          mkdir -p _site
-          cp -r docs/. _site/
-          python3 - <<'PY'
-          import os, pathlib
-          key = os.environ.get("ALLRATES_API_KEY", "")
-          p = pathlib.Path("_site/index.html")
-          p.write_text(p.read_text().replace("__ALLRATES_API_KEY__", key))
-          PY
-
       - uses: actions/configure-pages@v5
-
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: _site
-
+          path: docs
       - id: deployment
         uses: actions/deploy-pages@v4

@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Live Currency Converter — Compare Free & Pro Exchange Rates</title>
-<meta name="description" content="Free live currency converter with real-time exchange rates for 200+ currencies. Compare free ECB rates (Frankfurter) with pro mid-market rates (AllRatesToday). No API key needed for the free option." />
+<title>Live Currency Converter — Free Real-Time Exchange Rates</title>
+<meta name="description" content="Free live currency converter with real-time exchange rates for 30+ currencies from the European Central Bank. No API key required. Powered by the live-currency-rates npm package." />
 <meta name="keywords" content="currency converter, live currency rates, exchange rates, free currency api, forex, USD EUR GBP, crypto converter, npm currency, allratestoday" />
 <meta name="author" content="cahthuranag" />
 <meta name="robots" content="index, follow" />
@@ -138,7 +138,7 @@
 <div class="wrap">
   <header>
     <h1>Live Currency Converter</h1>
-    <p class="tagline">Compare free ECB rates (Frankfurter) with pro real-time mid-market rates (AllRatesToday) side-by-side. Powered by the <code>live-currency-rates</code> npm package.</p>
+    <p class="tagline">Free live exchange rates from the European Central Bank — no API key, no signup. Need 200+ currencies or real-time mid-market rates? The <code>live-currency-rates</code> npm package supports those too, server-side.</p>
     <div class="badges">
       <a href="https://www.npmjs.com/package/live-currency-rates"><img src="https://img.shields.io/npm/v/live-currency-rates?color=cb3837" alt="npm version" /></a>
       <a href="https://github.com/cahthuranag/live-currency-converter"><img src="https://img.shields.io/github/stars/cahthuranag/live-currency-converter?style=social" alt="GitHub stars" /></a>
@@ -165,29 +165,15 @@
       <button id="convert" type="button">Convert</button>
     </div>
 
-    <div class="compare">
-      <div class="card" id="card-free">
-        <div class="prov-head">
-          <div class="prov-name">Frankfurter</div>
-          <span class="prov-badge free">FREE · No key</span>
-        </div>
-        <div class="prov-sub">European Central Bank · ~30 currencies · daily reference rates</div>
-        <div class="big" id="free-big">—</div>
-        <div class="rate" id="free-rate">Waiting for input…</div>
+    <div class="card" id="card-free">
+      <div class="prov-head">
+        <div class="prov-name">Frankfurter</div>
+        <span class="prov-badge free">FREE · No key</span>
       </div>
-
-      <div class="card" id="card-pro">
-        <div class="prov-head">
-          <div class="prov-name">AllRatesToday</div>
-          <span class="prov-badge pro">PRO · Real-time</span>
-        </div>
-        <div class="prov-sub">Reuters / interbank · 160+ currencies · mid-market rates</div>
-        <div class="big" id="pro-big">—</div>
-        <div class="rate" id="pro-rate">Waiting for input…</div>
-      </div>
+      <div class="prov-sub">European Central Bank · ~30 currencies · daily reference rates</div>
+      <div class="big" id="free-big">—</div>
+      <div class="rate" id="free-rate">Waiting for input…</div>
     </div>
-
-    <div class="delta" id="delta">Enter an amount and press Convert to compare both sources.</div>
 
     <section>
       <h2>Use it in your project</h2>
@@ -217,35 +203,25 @@ await Convert(100).from('USD').to('EUR');</code></pre>
 <script type="module">
   import { Convert, Symbols } from 'https://esm.sh/live-currency-rates@1.1.1';
 
-  // Injected at build time by GitHub Actions. If the secret isn't set, stays empty
-  // and the Pro card will show a helpful message instead of calling the API.
-  const ALLRATES_KEY = "__ALLRATES_API_KEY__";
-
   const fromEl = document.getElementById('from');
   const toEl = document.getElementById('to');
   const amountEl = document.getElementById('amount');
   const convertBtn = document.getElementById('convert');
   const swapBtn = document.getElementById('swap');
-
-  const freeBig = document.getElementById('free-big');
-  const freeRate = document.getElementById('free-rate');
-  const proBig = document.getElementById('pro-big');
-  const proRate = document.getElementById('pro-rate');
-  const deltaEl = document.getElementById('delta');
+  const bigEl = document.getElementById('free-big');
+  const rateEl = document.getElementById('free-rate');
 
   const fmt = new Intl.NumberFormat(undefined, { maximumFractionDigits: 6 });
 
-  function setCard(big, rate, target, isError = false) {
-    target.big.textContent = big;
-    target.rate.textContent = rate;
-    target.big.classList.toggle('error', !!isError);
+  function setResult(big, rate, isError = false) {
+    bigEl.textContent = big;
+    rateEl.textContent = rate;
+    bigEl.classList.toggle('error', !!isError);
   }
-  const free = { big: freeBig, rate: freeRate };
-  const pro = { big: proBig, rate: proRate };
 
   async function loadSymbols() {
     try {
-      const symbols = await Symbols(); // defaults to frankfurter
+      const symbols = await Symbols();
       const codes = Object.keys(symbols).sort();
       for (const sel of [fromEl, toEl]) {
         const df = document.createDocumentFragment();
@@ -260,36 +236,7 @@ await Convert(100).from('USD').to('EUR');</code></pre>
       fromEl.value = 'USD';
       toEl.value = 'EUR';
     } catch (e) {
-      setCard('Error', `Could not load currencies: ${e.message}`, free, true);
-    }
-  }
-
-  async function runFree(amount, from, to) {
-    try {
-      const r = await Convert(amount).from(from).to(to);
-      setCard(`${fmt.format(r.amount)} ${to}`,
-              `1 ${from} = ${fmt.format(r.rate)} ${to}`, free);
-      return r.rate;
-    } catch (e) {
-      setCard('Error', e.message, free, true);
-      return null;
-    }
-  }
-
-  async function runPro(amount, from, to) {
-    if (!ALLRATES_KEY || ALLRATES_KEY === "__" + "ALLRATES_API_KEY__") {
-      setCard('—',
-              'Pro rates disabled — set the ALLRATES_API_KEY secret in repo settings.', pro);
-      return null;
-    }
-    try {
-      const r = await Convert(amount, { apiKey: ALLRATES_KEY, provider: 'allrates' }).from(from).to(to);
-      setCard(`${fmt.format(r.amount)} ${to}`,
-              `1 ${from} = ${fmt.format(r.rate)} ${to}`, pro);
-      return r.rate;
-    } catch (e) {
-      setCard('Error', e.message, pro, true);
-      return null;
+      setResult('Error', `Could not load currencies: ${e.message}`, true);
     }
   }
 
@@ -298,26 +245,16 @@ await Convert(100).from('USD').to('EUR');</code></pre>
     const from = fromEl.value, to = toEl.value;
     if (!amount || !from || !to) return;
     convertBtn.disabled = true;
-    free.big.textContent = pro.big.textContent = '…';
-    free.rate.textContent = pro.rate.textContent = 'Fetching…';
-    deltaEl.textContent = 'Comparing…';
-
-    const [rFree, rPro] = await Promise.all([
-      runFree(amount, from, to),
-      runPro(amount, from, to),
-    ]);
-
-    if (rFree != null && rPro != null) {
-      const diff = rPro - rFree;
-      const pct = (diff / rFree) * 100;
-      const sign = diff >= 0 ? '+' : '';
-      deltaEl.innerHTML = `Difference: <strong>${sign}${fmt.format(diff)} ${to}</strong> per ${from} (<strong>${sign}${pct.toFixed(3)}%</strong>) — pro vs free`;
-    } else if (rFree != null) {
-      deltaEl.textContent = 'Add an API key secret to enable the pro comparison.';
-    } else {
-      deltaEl.textContent = '—';
+    setResult('…', 'Fetching rate…');
+    try {
+      const r = await Convert(amount).from(from).to(to);
+      setResult(`${fmt.format(r.amount)} ${to}`,
+                `${amount} ${from} = ${fmt.format(r.amount)} ${to}  ·  1 ${from} = ${fmt.format(r.rate)} ${to}`);
+    } catch (e) {
+      setResult('Error', e.message, true);
+    } finally {
+      convertBtn.disabled = false;
     }
-    convertBtn.disabled = false;
   }
 
   convertBtn.addEventListener('click', run);
